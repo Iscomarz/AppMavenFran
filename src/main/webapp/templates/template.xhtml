@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      lang="en">
+
+    <h:head>
+        <f:facet name="first">
+            <link rel="icon" type="image/x-ico" href="#{request.contextPath}/images/logo.ico"/>
+        </f:facet>
+        <title><ui:insert name="title">Proyecto Javae</ui:insert></title>
+        <h:outputScript name="js/nanoscroller.js" library="mirage-layout" />
+        <h:outputScript name="js/layout.js" library="mirage-layout" />
+        <ui:insert name="head"/>
+    </h:head>
+
+    <h:body>
+        <div class="layout-wrapper layout-cyan-light">
+            <ui:include src="sidebar.xhtml" />
+            
+            <div class="layout-main">
+                <ui:include src="topbar.xhtml" />
+                
+                <!-- <ui:include src="rightpanel.xhtml" /> --> 
+                <!-- <ui:include src="breadcrumb.xhtml" /> -->    
+               
+                <div class="layout-content">
+                    <ui:insert name="content"/>
+                    
+                </div>
+                
+              
+                
+                <!-- <ui:include src="config.xhtml" /> -->  
+                
+                <div class="layout-main-mask"></div>
+            </div>
+        </div>
+        
+        <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px;z-index: 1000002">
+           <f:facet name="start">
+               <i class="fa fa-circle-o-notch fa-spin ajax-loader" aria-hidden="true"></i>
+           </f:facet>
+
+           <f:facet name="complete">
+               <h:outputText value="" />
+           </f:facet>
+       </p:ajaxStatus>
+        
+        <h:outputStylesheet name="css/nanoscroller.css" library="mirage-layout" />
+        <h:outputStylesheet name="css/primeflex.css" library="mirage-layout" />
+        <h:outputStylesheet name="css/layout-cyan-dark.css" library="mirage-layout" />
+    </h:body>
+    
+</html>

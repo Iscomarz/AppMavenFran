@@ -1,0 +1,124 @@
+
+/* 
+    Created on : 14/06/2023, 01:06:45 PM
+    Author     : Blueweb
+*/
+* body{
+    margin: 0px; 
+    padding: 0px;
+}
+
+.mainContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 700px;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+/*button.ui-button {
+    background: #00b5b1;
+    border: 1px solid #00b5b1;
+    color: #e7fbfc;
+    border-radius: 0px;
+}*/
+
+/*button.ui-button.ui-state-hover {
+    background: #2b759d;
+    border: 1px solid #2b759d;
+    color: white;
+}*/
+
+/*.formContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}*/
+
+.userContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+    height: 70px;
+}
+
+.passContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+body .ui-inputfield{
+    width: 300px;
+}
+
+.ui-password-icon{
+    margin-right: 10px;
+}
+
+header{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+/*    background: #e6f4f1;*/
+}
+
+.navbar{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left{
+    display: flex;
+    width: 20%;
+    flex-direction: column;
+/*    background-color: #384955;*/
+}
+
+.mainform{
+    display: flex;
+    height: 100vh;
+}
+
+.content{
+    width: 85%;
+    height: 100vh;
+    padding: 40px;
+}
+
+
+
+
+/*.titleindex{
+    color: black;
+}*/
+
+.contenido{
+    display: flex;
+    flex-direction: row;
+}
+
+/*body .ui-button.ui-button-warning,
+body .ui-splitbutton.ui-button-warning>.ui-button,
+body .ui-menubutton.ui-button-warning>.ui-button{
+    background: #ff8282;
+color: #121212;
+border: 1px solid #ff8282;
+}*/
+
+.edit{
+    display: flex;
+    gap: 20px;
+}
+
+.ui-dialog .ui-dialog-conten{
+    padding: 0px;
+}

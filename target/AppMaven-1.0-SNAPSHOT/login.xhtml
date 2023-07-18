@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Login</title>
+        <link href="styles/newcss.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+        <h:outputScript name="js/nanoscroller.js" library="mirage-layout" />
+        <h:outputScript name="js/layout.js" library="mirage-layout" />
+
+        <f:facet name="first">
+            <link rel="icon" type="image/x-ico" href="#{request.contextPath}/images/logo.ico"/>
+        </f:facet> 
+
+        
+    </h:head>
+    <h:body>
+
+        <main class="mainContainer">
+
+            <p:graphicImage value="/images/logo.png" width="50px" alt="logo" />
+
+            <div>
+                <h1 style="text-align: center; margin-bottom: 5px">Bienvenido</h1>
+                <p style="text-align: center">Ingresa con tu usuario y contraseña</p>
+            </div>
+
+
+
+            <h:form id="form">  
+                <p:growl id="msgs" showDetail="true"/>
+
+                <p:panelGrid columns="1" layout="flex">
+
+                    <p:outputLabel for="user" style="width:100px" value="Usuario"/>
+                    <p:inputText value="#{loginBean.usuarios.usuario}" id="user" maxlength="20" placeholder="Usuario" required="true"/>
+
+                    <p:outputLabel for="pwd1" styleClass="col-fixed" style="width:100px" value="Contraseña"/>
+                    <p:password maxlength="12" id="pwd1" value="#{loginBean.usuarios.password}" placeholder="Contraseña" toggleMask="true" redisplay="true" required='true'/>                    
+
+                    <p:commandButton ajax="true" style="width: 97%" update="@form msgs" value="Login" action="#{loginBean.validarLogin()}"/>
+                </p:panelGrid>
+
+
+
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <p:graphicImage style="padding: 0px;" width="80px" value="images/33Ho.gif" />
+
+                </p:dialog>
+
+            </h:form>
+        </main>
+
+        <h:outputStylesheet name="css/nanoscroller.css" library="mirage-layout" />
+        <h:outputStylesheet name="css/primeflex.css" library="mirage-layout" />
+        <h:outputStylesheet name="css/layout-cyan-dark.css" library="mirage-layout" />
+
+    </h:body>
+</html>

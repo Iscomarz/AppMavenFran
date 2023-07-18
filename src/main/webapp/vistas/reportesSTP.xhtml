@@ -1,0 +1,88 @@
+<ui:composition template="../templates/template.xhtml"
+
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:define  name="content">
+
+        <h:head>
+            <title>Reportes Blue Web</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <link href="../styles/newcss.css" rel="stylesheet" type="text/css"/>
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />  
+            <f:facet name="first">
+                <link rel="icon" type="image/x-ico" href="#{request.contextPath}/images/logo.ico"/>
+            </f:facet> 
+        </h:head>
+        <h:body>
+            <h:form id="form" >
+                <p:growl id="msgs" showDetail="true"/>
+                <h1>Reportes STP</h1>
+                <p:toolbar>
+                    <p:toolbarGroup style="display: grid; grid-row: 2; grid-column: 2">
+                        <h2 style="display: inline-block">Consulta de reportes</h2><br></br>
+
+                        <div style="display: flex; gap: 20px; align-items: end">
+
+                            <div style="display: flex; gap: 20px; justify-content: center;align-items: center; flex-direction: column">
+                                <p:outputLabel for="fechaInicio" value="Fecha inicial"/>                            
+                                <p:datePicker required="true" value="#{activaBean.fechaInicial}" id="fechaInicio"/>
+                            </div>
+
+                            <div style="display: flex; gap: 20px; justify-content: center;align-items: center; flex-direction: column">
+                                <p:outputLabel for="fechaFinal" value="Fecha final"/>                            
+                                <p:datePicker required="true" value="#{activaBean.fechaFinal}"  id="fechaFinal" />
+                            </div>
+
+                            <div style="display: flex; gap: 20px; justify-content: center;align-items: center; flex-direction: column">
+                                <p:outputLabel for="status" value="Estatus"/>
+                                <p:selectOneMenu id="status" value="#{activaBean.activo}" >
+                                    <f:selectItem itemLabel="Activo" itemValue="true"/>
+                                    <f:selectItem itemLabel="Inactivo" itemValue="false"/>
+                                    <f:facet name="footer">
+                                        <p:divider styleClass="mt-0" />
+                                        <h:outputText value="2 options" style="font-weight:bold;"/>
+                                    </f:facet>
+                                </p:selectOneMenu>
+                            </div>
+
+
+                            <p:commandButton style="height: 100%" update=":form table"
+                                             action="#{activaBean.consultarTabla()}"
+                                             value="Consultar" class="ui-button-info"/>
+                        </div>
+
+                    </p:toolbarGroup>                    
+                </p:toolbar>
+
+                <p:dataTable  paginator="true" id="table" widgetVar="activaTable"
+                              paginatorPosition="bottom"
+                              rows="10" var="activacion"
+                              value="#{activaBean.rangoFechasEntitys}"
+                              editable="true" rendered="#{activaBean.mostrarTabla()}" rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+
+
+                    <p:column field="ciudad" headerText="Ciudad">
+                        <h:outputText  value="#{activacion.ciudad}" />                                        
+                    </p:column>
+
+                    <p:column field="fechaPeticion" headerText="Fecha de peticion" styleClass="date">
+
+                        <h:outputText value="#{activacion.fechaPeticion}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy hh:mm" />
+                        </h:outputText>                             
+                    </p:column>
+
+                    <p:column field="activo" headerText="Estatus" >
+                        
+                        <h:outputText id="status" value="#{activacion.idCiudad.activo ? 'Activo': 'Inactivo'}" />  
+                        
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>    
+        </h:body>       
+    </ui:define>    
+</ui:composition>

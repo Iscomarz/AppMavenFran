@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="AppMaven" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.blueweb.entity.CCiudad</class>
+    <class>com.blueweb.entity.SPerfiles</class>
+    <class>com.blueweb.entity.SUsuarios</class>
+    <class>com.blueweb.entity.CClientes</class>
+    <class>com.blueweb.entity.SPerfilesAccesos</class>
+    <class>com.blueweb.entity.SAccesos</class>
+    <class>com.blueweb.entity.CTelefonia</class>
+    <class>com.blueweb.entity.CDistribuidor</class>
+    <class>com.blueweb.entity.CAutomata</class>
+    <class>com.blueweb.entity.CRegion</class>
+    <class>com.blueweb.entity.CTipoTelefono</class>
+    <class>com.blueweb.entity.MArchivoLote</class>
+    <class>com.blueweb.entity.HActivacion</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://192.168.98.224:1433;databaseName=ACTIVACION"/>
+      <property name="javax.persistence.jdbc.user" value="activa"/>
+      <property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+      <property name="javax.persistence.jdbc.password" value="activa"/>
+    </properties>
+  </persistence-unit>
+</persistence>

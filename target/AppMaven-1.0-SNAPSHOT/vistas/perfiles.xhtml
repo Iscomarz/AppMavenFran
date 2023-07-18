@@ -1,0 +1,135 @@
+<ui:composition template="../templates/template.xhtml"
+
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:define  name="content">
+
+        <h:head>
+            <title>Perfiles Blue Web</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <link href="../styles/newcss.css" rel="stylesheet" type="text/css"/>
+            <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />  
+            <f:facet name="first">
+                <link rel="icon" type="image/x-ico" href="#{request.contextPath}/images/logo.ico"/>
+            </f:facet> 
+        </h:head>
+        <h:body>
+            <h:form id="form" >
+                <p:growl id="msgs" showDetail="true"/>
+                <h1>Perfiles</h1>
+
+                <h2>
+                    Agregar un nuevo perfil
+                </h2>
+
+                <h:panelGrid style="margin-bottom: 20px"  id="agregar" columns="5">
+
+                    <p:inputText id="Nombre" value="#{perfilesBean.perfil.nombrePerfil}" required="true" style="margin-right: 25px" placeholder="Nombre" maxlength="20"/>
+                    <p:inputText id='Descripcion' value="#{perfilesBean.perfil.descripcion}" required="true" style="margin-right: 25px" placeholder="Descripcion" maxlength="20"/>
+                    <p:tooltip id="toolTipTrack2" for="Descripcion" value="Esxribe la descripcion" trackMouse="true" />
+                    <p:tooltip id="toolTipTrack" for="Nombre" value="Esxribe tu nombre" trackMouse="true" />
+
+
+                    <p:commandButton action="#{perfilesBean.agregarPerfil()}" value="Agregar" icon="pi pi-plus" process="@this agregar"
+                                     update=":form table msgs agregar" style="margin-right: .5rem" class="ui-button-info" >
+                    </p:commandButton>
+
+                </h:panelGrid>
+
+                <p:dataTable  paginator="true" id="table"
+                              paginatorPosition="bottom"
+                              rows="10" var="perfiles"
+                              value="#{perfilesBean.perfiles}"
+                              filteredValue="#{perfilesBean.perfilesFiltrados}" 
+                              editable="true" rowsPerPageTemplate="5,10,{ShowAll|'All'}">
+
+                    <p:ajax event="rowEdit" listener="#{perfilesBean.editarPerfil(perfiles)}" update=":form:msgs"/>
+                    <p:ajax event="rowEditCancel" listener="#{respuesta.cancel()}" update=":form:msgs"/> 
+               
+
+                    <p:column field="NombrePerfil" headerText="Nombre De Perfil" filterMaxLength="20" filterBy="#{perfiles.nombrePerfil}" filterMatchMode="contains">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText  value="#{perfiles.nombrePerfil}" />
+                            </f:facet>                      
+                            <f:facet name="input">
+                                <p:inputText maxlength="20"  rendered="true" value="#{perfiles.nombrePerfil}" style="width:100%"/>
+                            </f:facet>
+                        </p:cellEditor>                       
+                    </p:column>
+
+                    <p:column field="Descripcion" headerText="Descripcion" filterMaxLength="20" filterBy="#{perfiles.descripcion}" filterMatchMode="contains">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText  value="#{perfiles.descripcion}" />
+                            </f:facet>                      
+                            <f:facet name="input">
+                                <p:inputText maxlength="20"  rendered="true" value="#{perfiles.descripcion}" style="width:100%"/>
+                            </f:facet>
+                        </p:cellEditor>                       
+                    </p:column>
+
+                    <p:column field="Activo" headerText="Activo" filterMaxLength="20" filterBy="#{perfiles.activo}" filterMatchMode="contains">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText  value="#{perfiles.activo ? 'Activo': 'Inactivo'}" />
+                            </f:facet>                      
+                            <f:facet name="input">
+                                <p:inputText maxlength="20"  rendered="true" value="#{perfiles.activo}" style="width:100%"/>
+                            </f:facet>
+                        </p:cellEditor>                       
+                    </p:column>
+
+                    <p:column  style="width:3rem" headerText="Accesos">
+                        <p:commandButton id="pickListBtn" update="form:table form:msgs form:pickList" value="#{perfilesBean.perfil.idPerfil}"
+                                         action="#{accesosBean.mostrarAccesosActualesDisponibles(perfiles.idPerfil)}" process="@this form:pickList" 
+                                         class="rounded-button"  icon="pi pi-lock" oncomplete="PF('pickList').show()"/>  
+
+                    </p:column>
+
+                    <p:column  headerText="Editar" style="width:2.2rem">
+                        <p:rowEditor  id="ideditor" editTitle="Edit Row" cancelTitle="Cancel Edit" saveTitle="Save Row"/>                        
+                    </p:column>
+
+
+                    <p:column headerText="Borrar" id="columnBorrar" style="width:3rem">
+
+                        <p:commandButton id="btnBorrar" update="form:table form:msgs" process="@this table columnBorrar" action="#{perfilesBean.borrarPerfil(perfiles)}" class="ui-button-danger rounded-button"  icon="pi pi-trash">
+                            <p:confirm header="Confirmar" message="¿Estas seguro de eliminar este perfil?" icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+
+                    </p:column>
+
+
+                </p:dataTable>
+
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Yes" type="button"  styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                    <p:commandButton value="No" type="button" action="#{respuesta.cancel()}" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                </p:confirmDialog>
+
+                <p:dialog header="Accesos #{perfilesBean.perfil.nombrePerfil}" widgetVar="pickList" minHeight="40" width="auto" showEffect="fade" modal="true">
+                    <p:pickList id="pickList" value="#{accesosBean.accesos}" var="accesos" 
+                                itemLabel="#{accesos.getNombreAcceso()}" itemValue="#{accesos.getNombreAcceso()}" showCheckbox="true" >
+                        <f:facet name="sourceCaption">Actuales</f:facet>
+                        <f:facet name="targetCaption">Disponibles</f:facet>
+                        <p:ajax event="transfer" process="@this form:table" listener="#{accesosBean.capturarNuevosAccesos()}" />
+
+                    </p:pickList>
+                    <f:facet name="footer">
+                        <p:commandButton onclick="PF('pickList').hide()" type="button" value="Cancelar" style="width: 5rem" />
+                        <p:commandButton styleClass="ui-confirmdialog-yes"  value="Aplicar"  
+                                         process="@this pickList"
+                                         action="#{accesosBean.aplicarCambioAccesos()}" style="width: 5rem" />
+
+
+                    </f:facet>
+                </p:dialog>
+
+            </h:form>    
+        </h:body>       
+    </ui:define>    
+</ui:composition>

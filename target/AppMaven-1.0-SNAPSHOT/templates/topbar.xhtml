@@ -1,0 +1,65 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui" xmlns:pa="http://primefaces.org/mirage">
+        <p:growl id="msgs" showDetail="true"/>
+        <div class="layout-topbar">
+            <div class="layout-topbar-wrapper">
+                <div class="layout-topbar-left">
+                    <div class="layout-topbar-logo-wrapper">
+                        <a href="dashboard.xhtml" class="layout-topbar-logo">
+                            <p:graphicImage name="images/logo-mirage@2x.png" library="mirage-layout" />
+                            <span class="app-name">Mirage</span>
+                        </a>
+                    </div>
+
+                    <a href="#" class="sidebar-menu-button">
+                        <i class="fa fa-bars"></i>
+                    </a>
+
+                    <a href="#" class="megamenu-mobile-button">
+                        <i class="fa fa-align-right megamenu-icon"></i>
+                    </a>
+
+                    <a href="#" class="topbar-menu-mobile-button">
+                        <i class="fa fa-ellipsis-v"></i>
+                    </a>
+
+                    <!-- Mega Menu -->
+
+                </div>
+                <div class="layout-topbar-right">
+                    <ul class="layout-topbar-actions">
+                        <li class="topbar-item profile-item">
+                            <a href="#">
+                                <span class="profile-image-wrapper">
+                                    <p:avatar icon="pi pi-user" styleClass="mr-2" size="large" 
+                                              style="background-color:#7ea5c5; color:#fff" shape="circle" />
+                                </span>
+                                <span class="profile-info-wrapper">
+                                    <h3>#{sesion.nombre}</h3>
+                                    <span>Usuario</span>
+                                </span>
+                            </a>
+                            <ul class="profile-item-submenu">
+                                <li class="profile-submenu-header">
+                                    <div class="profile">                                                                          
+                                        <h1>#{sesion.nombre}</h1>
+                                        <span>Usuario</span>
+                                    </div>
+                                </li>
+                                <li class="layout-submenu-footer">
+                                    <h:form>
+                                        <p:commandButton  oncomplete="window.location='#{request.contextPath}/login.xhtml'"
+                                                          update="msgs" icon="pi pi-sign-out" value="Cerrar sesión" process="@this" action="#{loginBean.logOut()}"/>
+                                    </h:form>   
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+
+
+                </div>
+            </div>
+        </div>
+</ui:composition>

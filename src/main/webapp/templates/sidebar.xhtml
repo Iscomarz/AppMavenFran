@@ -1,0 +1,41 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pm="http://primefaces.org/mirage">
+
+    <div class="layout-sidebar" style="background-color: #1b1f27">
+        <div class="sidebar-logo">
+            <a href="#" class="sidebar-pin" title="Toggle Menu">
+                <i class="pi pi-circle-on"></i>
+            </a>
+            <a href="dashboard.xhtml">
+                <p:graphicImage name="logo.png" library="imagenes" />
+                <span class="app-name">Menu</span>
+            </a>
+        </div>
+
+        <div class="layout-menu-container">
+            <div class="nano">
+                <div class="nano-content menu-scroll-content">
+                    <h:form id="menuform">
+                        <pm:menu>
+                             <p:menuitem url="#{request.contextPath}/index.xhtml" value="Inicio" icon="pi pi-home"  />
+                            <p:menuitem url="#{request.contextPath}/vistas/parametro.xhtml" value="Parametros" icon="pi pi-th-large"  />
+                            <p:menuitem url="#{request.contextPath}/vistas/ciudad.xhtml"  value="Ciudades" icon="pi pi-globe"  />
+                            <p:menuitem url="#{request.contextPath}/vistas/perfiles.xhtml"  value="Perfiles" icon="pi pi-users"  />
+                            <p:submenu label="Reportes">
+                                <p:menuitem url="#{request.contextPath}/vistas/reportes.xhtml"  value="Reportes" icon="pi pi-file"  />
+                                <p:menuitem url="#{request.contextPath}/vistas/reportesSTP.xhtml" value="Reporte STP" icon="pi pi-file-excel"  />                                
+                            </p:submenu>
+                            
+                        </pm:menu>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</ui:composition>
