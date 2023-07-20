@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import org.primefaces.PrimeFaces;
 import org.primefaces.model.DualListModel;
@@ -114,9 +116,16 @@ public class AccesosBean implements Serializable {
 
                 try {
                     PAController.create(perfilesAcceso);
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                "Registros encontrados", "Operación exitosa"));
                 } catch (Exception ex) {
                     Logger.getLogger(AccesosBean.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            }
+            
+            if(perfilesAcceso != null){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                "Registros encontrados", "Operación exitosa"));
             }
         }
         

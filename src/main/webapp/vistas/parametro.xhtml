@@ -78,7 +78,7 @@
                     <p:ajax event="rowEditCancel" listener="#{respuesta.cancel()}" update=":form:msgs"/>  
                 
 
-                    <p:column field="NOMBRE" headerText="Nombre" filterMaxLength="20" filterBy="#{parametro.nombre}" filterMatchMode="contains">
+                    <p:column field="nombre" headerText="Nombre" filterMaxLength="20" filterBy="#{parametro.nombre}" filterMatchMode="contains">
                         <p:cellEditor>
                             <f:facet name="output">
                                 <h:outputText  value="#{parametro.nombre}" />
@@ -89,7 +89,7 @@
                         </p:cellEditor>                       
                     </p:column>
 
-                    <p:column field="VALOR" headerText="Valor" filterMaxLength="20" filterBy="#{parametro.valor}" filterMatchMode="contains">
+                    <p:column field="valor" headerText="Valor" filterMaxLength="20" filterBy="#{parametro.valor}" filterMatchMode="contains">
                         <p:cellEditor>
                             <f:facet name="output">
                                 <h:outputText  value="#{parametro.valor}" />
@@ -100,7 +100,7 @@
                         </p:cellEditor>                       
                     </p:column>
 
-                    <p:column field="DESCRIPCION" headerText="Descripción" filterMaxLength="20" filterBy="#{parametro.descripcion}" filterMatchMode="contains">
+                    <p:column field="descripcion" headerText="Descripción" filterMaxLength="20" filterBy="#{parametro.descripcion}" filterMatchMode="contains">
                         <p:cellEditor>
                             <f:facet name="output">
                                 <h:outputText  value="#{parametro.descripcion}" />

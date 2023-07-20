@@ -61,7 +61,7 @@ public class CCiudad implements Serializable {
     @Column(name = "CODIGO")
     private String codigo;
     @Column(name = "LADA")
-    private Short lada;
+    private Integer lada;
     @Column(name = "ACTIVO")
     private Boolean activo;
     @Column(name = "FECHA_ALTA")
@@ -113,11 +113,11 @@ public class CCiudad implements Serializable {
         this.codigo = codigo;
     }
 
-    public Short getLada() {
+    public Integer getLada() {
         return lada;
     }
 
-    public void setLada(Short lada) {
+    public void setLada(Integer lada) {
         this.lada = lada;
     }
 

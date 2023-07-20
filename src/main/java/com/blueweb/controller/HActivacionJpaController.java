@@ -17,6 +17,7 @@ import com.blueweb.entity.CTipoTelefono;
 import com.blueweb.entity.HActivacion;
 import com.blueweb.entity.MArchivoLote;
 import com.blueweb.entity.SUsuarios;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -424,12 +425,14 @@ public class HActivacionJpaController implements Serializable {
             query.select(hActivacion).where(predicado.toArray(new Predicate[]{}));
 
             TypedQuery<HActivacion> typedQuery = em.createQuery(query);
-            
-             List<HActivacion> resultado = typedQuery.getResultList();
-             
-             if(!resultado.isEmpty()){
-                 //Mandar mensaje No existen registros
-             }
+
+            List<HActivacion> resultado = typedQuery.getResultList();
+
+            if (resultado.isEmpty()) {
+                //Mandar mensaje No existen registros
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "No hay registros", "No se encontraron registros"));
+            }
 
             return resultado;
         } finally {
@@ -438,29 +441,28 @@ public class HActivacionJpaController implements Serializable {
 
     }
 
-    public List<HActivacion> encontrarReporteHActivacionSTP(Date fechaInicio, Date fechaFinal, CCiudad activoStatus) {
+    public List<HActivacion> encontrarReporteHActivacionSTP(LocalDate fechaInicio, LocalDate fechaFinal, CCiudad activoStatus) {
 
         EntityManager em = getEntityManager();
+        List<HActivacion> resultado = new ArrayList<>();
 
         try {
-            StoredProcedureQuery storedProcedure = em.createStoredProcedureQuery("reporte_STP_francisco");
-            storedProcedure.registerStoredProcedureParameter("fechaInicial", Date.class, ParameterMode.IN);
-            storedProcedure.registerStoredProcedureParameter("fechaFinal", Date.class, ParameterMode.IN);
+            StoredProcedureQuery storedProcedure = em.createStoredProcedureQuery("reporte_STP_francisco", HActivacion.class);
+            storedProcedure.registerStoredProcedureParameter("fechaInicial", LocalDate.class, ParameterMode.IN);
+            storedProcedure.registerStoredProcedureParameter("fechaFinal", LocalDate.class, ParameterMode.IN);
             storedProcedure.registerStoredProcedureParameter("estatus", Boolean.class, ParameterMode.IN);
 
             storedProcedure.setParameter("fechaInicial", fechaInicio);
             storedProcedure.setParameter("fechaFinal", fechaFinal);
             storedProcedure.setParameter("estatus", activoStatus.getActivo());
 
-            storedProcedure.execute();
+            resultado = storedProcedure.getResultList();
 
-            List<HActivacion> resultado = storedProcedure.getResultList();
-            
-            if(!resultado.isEmpty()){
-                 //Mandar mensaje No existen registros
-                  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                "No hay registros", "No se encontraron registros"));
-             }
+            if (resultado.isEmpty()) {
+                //Mandar mensaje No existen registros
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        "No hay registros", "No se encontraron registros"));
+            }
 
             return resultado;
         } finally {

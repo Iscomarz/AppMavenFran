@@ -28,57 +28,60 @@
 
                             <div style="display: flex; gap: 20px; justify-content: center;align-items: center; flex-direction: column">
                                 <p:outputLabel for="fechaInicio" value="Fecha inicial"/>                            
-                                <p:datePicker required="true" value="#{activaBean.fechaInicial}" id="fechaInicio"/>
+                                <p:datePicker required="true" maxdate="#{activaBean.fechaActual}" 
+                                              mindate="#{activaBean.fechaActual.plusYears(-1)}" value="#{activaBean.fechaInicial}" 
+                                              id="fechaInicio"  >
+                                    <p:ajax event="change" update=":form fechaFinal"   />
+                                </p:datePicker>
                             </div>
+
+
 
                             <div style="display: flex; gap: 20px; justify-content: center;align-items: center; flex-direction: column">
                                 <p:outputLabel for="fechaFinal" value="Fecha final"/>                            
-                                <p:datePicker required="true" value="#{activaBean.fechaFinal}"  id="fechaFinal" />
+                                <p:datePicker maxdate="#{activaBean.fechaInicial.plusMonths(1)}" widgetVar="pickerFinal"
+                                              mindate="#{activaBean.fechaInicial}" required="true"  value="#{activaBean.fechaFinal}" id="fechaFinal" />                                                                     
                             </div>
 
                             <div style="display: flex; gap: 20px; justify-content: center;align-items: center; flex-direction: column">
                                 <p:outputLabel for="status" value="Estatus"/>
-                                <p:selectOneMenu id="status" value="#{activaBean.activo}" >
+                                <p:selectOneMenu id="status" value="#{activaBean.ciudad.activo}" >
                                     <f:selectItem itemLabel="Activo" itemValue="true"/>
                                     <f:selectItem itemLabel="Inactivo" itemValue="false"/>
-                                    <f:facet name="footer">
-                                        <p:divider styleClass="mt-0" />
-                                        <h:outputText value="2 options" style="font-weight:bold;"/>
-                                    </f:facet>
                                 </p:selectOneMenu>
                             </div>
 
 
-                            <p:commandButton style="height: 100%" update=":form table"
-                                             action="#{activaBean.consultarTabla()}"
+                            <p:commandButton style="height: 100%" update=":form msgs" process=":form fechaInicio fechaFinal"
+                                             actionListener="#{activaBean.consultarTablaSTP()}"
                                              value="Consultar" class="ui-button-info"/>
                         </div>
 
                     </p:toolbarGroup>                    
                 </p:toolbar>
 
-                <p:dataTable  paginator="true" id="table" widgetVar="activaTable"
+                <p:dataTable  paginator="true" id="table"
                               paginatorPosition="bottom"
                               rows="10" var="activacion"
                               value="#{activaBean.rangoFechasEntitys}"
                               editable="true" rendered="#{activaBean.mostrarTabla()}" rowsPerPageTemplate="5,10,{ShowAll|'All'}">
 
 
-                    <p:column field="ciudad" headerText="Ciudad">
+                    <p:column headerText="Ciudad">
                         <h:outputText  value="#{activacion.ciudad}" />                                        
                     </p:column>
 
-                    <p:column field="fechaPeticion" headerText="Fecha de peticion" styleClass="date">
+                    <p:column headerText="Fecha de petición " styleClass="date">
 
                         <h:outputText value="#{activacion.fechaPeticion}" >
                             <f:convertDateTime pattern="dd/MM/yyyy hh:mm" />
                         </h:outputText>                             
                     </p:column>
 
-                    <p:column field="activo" headerText="Estatus" >
-                        
+                    <p:column headerText="Estatus" >
+
                         <h:outputText id="status" value="#{activacion.idCiudad.activo ? 'Activo': 'Inactivo'}" />  
-                        
+
                     </p:column>
 
                 </p:dataTable>

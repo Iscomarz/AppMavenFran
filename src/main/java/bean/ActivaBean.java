@@ -4,11 +4,16 @@ import com.blueweb.controller.HActivacionJpaController;
 import com.blueweb.entity.CCiudad;
 import com.blueweb.entity.HActivacion;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 
 /**
@@ -19,39 +24,93 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class ActivaBean implements Serializable {
 
-    private List<HActivacion> activaciones;
-    private List<HActivacion> activacionesFiltrados;
-
     private List<HActivacion> rangoFechasEntitys;
 
     private HActivacion activacion = new HActivacion();
-    private Date fechaInicial;
-    private Date fechaFinal;
+    private LocalDate fechaInicial;
+    private LocalDate fechaFinal;
     private boolean activo = true;    
     private CCiudad ciudad = new CCiudad();
+    private LocalDate fechaActual; 
+    private LocalDate fechaInicialActivacion;
 
     private HActivacionJpaController HAController = new HActivacionJpaController();
-
+    
     @PostConstruct
     public void init() {
-        activaciones = new ArrayList<HActivacion>();
-        
-
+        fechaActual = LocalDate.now();
+       
+        System.out.println(fechaActual);
         // Inizalizar objteto
     }
+    
+    public Boolean activarFechaFinal(){
+        return fechaInicial == null;
+    }
+    
+    
 
-    public List<HActivacion> consultarTabla() {
+
+    
+     public List<HActivacion> consultarTabla() {
+
+        System.out.println(activo);
+        System.out.println(fechaInicial);
+        System.out.println(fechaFinal);
+        
+        Date fechaInicialDate = java.sql.Date.valueOf(fechaInicial);
+        Date fechaFinalDate = java.sql.Date.valueOf(fechaFinal);
+
+        
+        rangoFechasEntitys = new ArrayList<>();
+        
+        //Obtener el rango fechas 
+        
+         try {
+            rangoFechasEntitys = HAController.encontrarReporteHActivacion(fechaInicialDate, fechaFinalDate, ciudad);
+            
+            if(!rangoFechasEntitys.isEmpty()){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                "Registros encontrados", "Operación exitosa"));
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ActivaBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        //Obtener entidades en ese rango de fechas 
+        
+        //Retornar entidades filtradas
+
+        return rangoFechasEntitys;
+        //mostrarTabla();
+
+    }
+    
+        public List<HActivacion> consultarTablaSTP() {
 
         System.out.println(activo);
         System.out.println(fechaInicial);
         System.out.println(fechaFinal);
 
-        ciudad.setActivo(activo);
+        
         rangoFechasEntitys = new ArrayList<>();
+        
         //Obtener el rango fechas 
+        
+         try {
+            rangoFechasEntitys = HAController.encontrarReporteHActivacionSTP(fechaInicial, fechaFinal, ciudad);
+            
+            if(!rangoFechasEntitys.isEmpty()){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                "Registros encontrados", "Operación exitosa"));
+            }
+           
+        } catch (Exception ex) {
+            Logger.getLogger(ActivaBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         //Obtener entidades en ese rango de fechas 
-        rangoFechasEntitys = HAController.encontrarReporteHActivacion(fechaInicial, fechaFinal, ciudad);
+        
         //Retornar entidades filtradas
 
         return rangoFechasEntitys;
@@ -64,34 +123,6 @@ public class ActivaBean implements Serializable {
     }
 
     //<editor-fold defaultstate="collapsed" desc="Gets y Sets">
-    /**
-     * @return the activaciones
-     */
-    public List<HActivacion> getActivaciones() {
-        return activaciones;
-    }
-
-    /**
-     * @param activaciones the activaciones to set
-     */
-    public void setActivaciones(List<HActivacion> activaciones) {
-        this.activaciones = activaciones;
-    }
-
-    /**
-     * @return the activacionesFiltrados
-     */
-    public List<HActivacion> getActivacionesFiltrados() {
-        return activacionesFiltrados;
-    }
-
-    /**
-     * @param activacionesFiltrados the activacionesFiltrados to set
-     */
-    public void setActivacionesFiltrados(List<HActivacion> activacionesFiltrados) {
-        this.activacionesFiltrados = activacionesFiltrados;
-    }
-
     /**
      * @return the activacion
      */
@@ -123,28 +154,28 @@ public class ActivaBean implements Serializable {
     /**
      * @return the fechaInicial
      */
-    public Date getFechaInicial() {
+    public LocalDate getFechaInicial() {
         return fechaInicial;
     }
 
     /**
      * @param fechaInicial the fechaInicial to set
      */
-    public void setFechaInicial(Date fechaInicial) {
+    public void setFechaInicial(LocalDate fechaInicial) {
         this.fechaInicial = fechaInicial;
     }
 
     /**
      * @return the fechaFianl
      */
-    public Date getFechaFinal() {
+    public LocalDate getFechaFinal() {
         return fechaFinal;
     }
 
     /**
      * @param fechaFianl the fechaFianl to set
      */
-    public void setFechaFinal(Date fechaFianl) {
+    public void setFechaFinal(LocalDate fechaFianl) {
         this.fechaFinal = fechaFianl;
     }
 
@@ -190,5 +221,33 @@ public class ActivaBean implements Serializable {
         this.ciudad = ciudad;
     }
 //</editor-fold>
+
+    /**
+     * @return the fechaActual
+     */
+    public LocalDate getFechaActual() {
+        return fechaActual;
+    }
+
+    /**
+     * @param fechaActual the fechaActual to set
+     */
+    public void setFechaActual(LocalDate fechaActual) {
+        this.fechaActual = fechaActual;
+    }
+
+    /**
+     * @return the fechaInicialActivacion
+     */
+    public LocalDate getFechaInicialActivacion() {
+        return fechaInicialActivacion;
+    }
+
+    /**
+     * @param fechaInicialActivacion the fechaInicialActivacion to set
+     */
+    public void setFechaInicialActivacion(LocalDate fechaInicialActivacion) {
+        this.fechaInicialActivacion = fechaInicialActivacion;
+    }
 
 }

@@ -53,12 +53,15 @@
 
                         </p:dialog>
 
-                        <h:panelGrid  id="agregar" columns="4">
+                        <h:panelGrid  id="agregar" columns="7">
 
                             <p:inputText id="descripcion" value="#{ciudadBean.ciudad.descripcion}" required="true" style="margin-right: 25px" placeholder="Descripción" maxlength="20"/>
-                            <p:inputText id='Código' value="#{ciudadBean.ciudad.codigo}" required="true" style="margin-right: 25px" placeholder="Código" maxlength="20"/>
-                            <p:inputText id='Lada' value="#{ciudadBean.ciudad.lada}"  style="margin-right: 25px" placeholder="Lada" maxlength="3"/>
-
+                            <p:inputText id='codigo' value="#{ciudadBean.ciudad.codigo}" required="true" style="margin-right: 25px" placeholder="Código" maxlength="20"/>
+                            <p:inputText id='lada' value="#{ciudadBean.ciudad.lada}"  style="margin-right: 25px" placeholder="Lada" maxlength="3"/>
+                            <p:tooltip id="toolTipTrack" for="descripcion" value="Descripción" trackMouse="true" />
+                            <p:tooltip id="toolTipTrack1" for="codigo" value="Código" trackMouse="true" />
+                            <p:tooltip id="toolTipTrack2" for="lada" value="Lada" trackMouse="true" />
+                            
 
                             <p:commandButton actionListener="#{ciudadBean.agregarCiudad}" value="Agregar" icon="pi pi-plus" process="@this agregar"
                                              update="table msgs agregar" style="margin-right: .5rem" class="ui-button-info" >
@@ -82,7 +85,7 @@
                     <p:ajax event="rowEditCancel" listener="#{respuesta.cancel()}" update=":form:msgs"/> 
 
 
-                    <p:column field="DESCRIPCION" headerText="Descripción" filterMaxLength="20" filterBy="#{ciudad.descripcion}" filterMatchMode="contains">
+                    <p:column field="descripcion" headerText="Descripción" filterMaxLength="20" filterBy="#{ciudad.descripcion}" filterMatchMode="contains">
                         <p:cellEditor>
                             <f:facet name="output">
                                 <h:outputText  value="#{ciudad.descripcion}" />
@@ -93,7 +96,7 @@
                         </p:cellEditor>                       
                     </p:column>
 
-                    <p:column field="CODIGO" headerText="Código" filterMaxLength="20" filterBy="#{ciudad.codigo}" filterMatchMode="contains" >
+                    <p:column field="codigo" headerText="Código" filterMaxLength="20" filterBy="#{ciudad.codigo}" filterMatchMode="contains" >
                         <p:cellEditor>
                             <f:facet name="output">
                                 <h:outputText  value="#{ciudad.codigo}" />
@@ -105,7 +108,7 @@
                     </p:column>
 
 
-                    <p:column field="LADA" headerText="Lada" filterMaxLength="10" filterBy="#{ciudad.lada}">
+                    <p:column field="lada" headerText="Lada" filterMaxLength="10" filterBy="#{ciudad.lada}">
                         <p:cellEditor>
                             <f:facet name="output">
                                 <h:outputText  value="#{ciudad.lada}" />

@@ -16,6 +16,7 @@
     <class>com.blueweb.entity.MArchivoLote</class>
     <class>com.blueweb.entity.HActivacion</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <shared-cache-mode>NONE</shared-cache-mode>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://192.168.98.224:1433;databaseName=ACTIVACION"/>
       <property name="javax.persistence.jdbc.user" value="activa"/>

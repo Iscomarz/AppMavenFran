@@ -59,7 +59,7 @@ public class CiudadBean implements Serializable {
         }
             System.out.println("Se AGREGO con exito");
            
-      
+        limpiarCiudad();
         ciudades = CController.findCCiudadEntities();
     }
 
@@ -86,6 +86,12 @@ public class CiudadBean implements Serializable {
         }
         
         ciudades = CController.findCCiudadEntities();
+    }
+    
+    public void limpiarCiudad(){
+        ciudad.setDescripcion("");
+        ciudad.setCodigo("");
+        ciudad.setLada(0);
     }
 
   
